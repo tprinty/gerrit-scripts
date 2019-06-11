@@ -1,0 +1,28 @@
+
+#!/usr/bin/env python
+
+from pygerrit2 import GerritRestAPI
+from requests.auth import HTTPDigestAuth
+import os
+import re
+
+maxcons = 8
+auth = HTTPDigestAuth('adminusername', 'admin-http-auth-key-from-settings')
+rest = GerritRestAPI(url='http://yourserver:8080', auth=auth)
+tasks = rest.get("/config/server/tasks/")
+users_dict = {}
+for task in tasks:
+    if "git-upload-pack" in task["command"]:
+        match = re.search('\(([^()]+)\)', task["command"])
+        user = match.group(1)
+        if (user != 'jenksvc'):
+                print "User: " + user + " " + task["command"]
+                if user in users_dict:
+                        users_dict[user] =  users_dict[user] + 1
+                else:
+                         users_dict[user] = 1
+
+for key, value in users_dict.iteritems():
+        if (value >= maxcons):
+                 os.system('echo "You are using too many connections to the Git/Gerrit master server. You are currently using '+value+' connections. Please limit your connections to 8 (-j 8) when doing a repo sync. This is an automated message please do not reply." |mail -s "Too Many Gerrit Connections from your account" '+key+'@zebra.com -c admin@yourcompany.com')
+
