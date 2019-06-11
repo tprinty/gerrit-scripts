@@ -5,7 +5,7 @@ Scripts that I use to interacct with Gerrit and do various maintenance things.
 
 ## Authors
 
-* **Tom Printy** - *Setup* - [Tom Printy](https://github.com/tprinty) Tom is the owner of [Edison Avenue Consulting LLC](https://www.edisoanve.com) 
+* **Tom Printy** - *Setup* - [Tom Printy](https://github.com/tprinty) Tom is the owner of [Edison Avenue Consulting LLC](https://www.edisonave.com) 
 
 
 ## License
